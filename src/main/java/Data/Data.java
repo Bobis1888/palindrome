@@ -11,7 +11,7 @@ public class Data {
         Prop prop = new Prop();
         initConnect(prop);
     }
-    private void initConnect(Prop prop){
+   private void initConnect(Prop prop){
         try {
             Class.forName(prop.getJdbc()).getDeclaredConstructor().newInstance();
             System.out.println("Driver is loading...");
@@ -28,6 +28,13 @@ public class Data {
             e.printStackTrace();
         }
     }
+    public void handlerGamer(Gamer gamer){
+        if (searchGamer(gamer))
+            updateGamer(gamer);
+        else
+            addGamer(gamer);
+    }
+    //добавление игрока
     private void addGamer(Gamer gamer){
         String sql = "INSERT INTO Gamer.LeaderBoards (name,points) Values (?,?)";
         PreparedStatement preparedStatement = null;
@@ -47,6 +54,7 @@ public class Data {
             }
         }
     }
+    //обновление очков игрока
     private void updateGamer(Gamer gamer){
         String sql = "update Gamer.LeaderBoards set points = ? where name = ? ;";
         PreparedStatement preparedStatement = null;
@@ -54,6 +62,7 @@ public class Data {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,gamer.getPoints());
             preparedStatement.setString(2,gamer.getName());
+            preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,6 +74,11 @@ public class Data {
                 e.printStackTrace();
             }
         }
+    }
+    //поиск игрока
+    private boolean searchGamer(Gamer gamer){
+        ArrayList<Gamer> gamers = getListOfGamers();
+        return gamers.contains(gamer);
     }
     private ArrayList<Gamer> getListOfGamers(){
         ArrayList<Gamer> gamers = new ArrayList<>();
@@ -95,10 +109,5 @@ public class Data {
             }
         }
         return gamers;
-    }
-    public static void main(String[] args) {
-        Data data = new Data();
-
-        System.out.println(data.getListOfGamers());
     }
 }

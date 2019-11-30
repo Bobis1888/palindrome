@@ -31,4 +31,10 @@ public class Gamer {
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public boolean equals(Object o){
+        if (o instanceof Gamer)
+            return ((Gamer) o).name.equals(this.name);
+        else return false;
+    }
 }
