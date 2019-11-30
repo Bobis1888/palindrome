@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Data {
     private Connection connection;
-    Data(){
+    public Data(){
         Prop prop = new Prop();
         initConnect(prop);
     }
@@ -80,7 +80,7 @@ public class Data {
         ArrayList<Gamer> gamers = getListOfGamers();
         return gamers.contains(gamer);
     }
-    private ArrayList<Gamer> getListOfGamers(){
+    public ArrayList<Gamer> getListOfGamers(){
         ArrayList<Gamer> gamers = new ArrayList<>();
         Gamer gamer;
         Statement statement = null;
